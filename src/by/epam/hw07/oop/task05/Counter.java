@@ -15,8 +15,8 @@ public class Counter {
 	 * intialization value by default
 	 */
 	public Counter() {
-		from = FROM; 
-		to = TO; 
+		from = FROM;
+		to = TO;
 		// value = 0
 	}
 
@@ -27,22 +27,22 @@ public class Counter {
 		this();
 		value = random.nextInt(TO);
 	}
-	
+
 	/*
 	 * intialization by value wich will be given
-	 * */
-	public Counter(int value) {		
+	 */
+	public Counter(int value) {
 		this();
 		this.value = value;
-		
-		if(this.value > to) {
+
+		if (this.value > to) {
 			this.value = to;
 		}
-		
-		if(this.value < from) {
+
+		if (this.value < from) {
 			this.value = from;
 		}
-		
+
 	}
 
 	/*
@@ -66,10 +66,10 @@ public class Counter {
 			value = TO - (Math.abs(from - value));
 		}
 	}
-	
+
 	/*
 	 * get value
-	 * */
+	 */
 	public int getCurrentValue() {
 		return value;
 	}

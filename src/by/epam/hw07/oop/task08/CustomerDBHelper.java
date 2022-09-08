@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CustomerDBHelper {
 
-	public List<Customer> createCustomersList() {
+	List<Customer> createCustomersList() {
 		List<Customer> customersList = new ArrayList<Customer>();
 		customersList.add(new Customer("Иванов", "Иван", "Иванович", "Вязьма"));
 		customersList.add(new Customer("Лермонтов", "Петр", "Иванович", "Владикавказ"));

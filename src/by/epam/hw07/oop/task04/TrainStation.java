@@ -1,8 +1,14 @@
 package by.epam.hw07.oop.task04;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class TrainStation {
+
+	private static final TrainByNumberComparator TRAIN_BY_NUMBER_COMPARATOR = new TrainByNumberComparator();
+	private static final TrainsByDestinationPoint TRAINS_BY_DESTINATION_POINT = new TrainsByDestinationPoint();
 
 	private Train[] trains;
 
@@ -21,66 +27,53 @@ public class TrainStation {
 	/*
 	 * sort trains by number
 	 */
-	public void sortTrainsByNumber() {
-		boolean isSorted = false;
+	public List<Train> sortTrainsByNumber() {
+		List<Train> trainsSortedByNumber = Arrays.stream(trains).sorted(TRAIN_BY_NUMBER_COMPARATOR)
+				.collect(Collectors.toList());
 
-		while (!isSorted) {
-			isSorted = true;
-
-			for (int i = 0; i < trains.length - 1; i++) {
-				if (trains[i].compareTo(trains[i + 1]) > 0) {
-					isSorted = false;
-					swapElements(trains, i, i + 1);
-				}
-			}
-
-		}
+		return trainsSortedByNumber;
 	}
 
 	/*
 	 * sort trains by destination point
 	 */
-	public void sortTrainsByDestinationPoint() {
-
-		boolean isSorted = false;
-
-		while (!isSorted) {
-			isSorted = true;
-
-			for (int i = 0; i < trains.length - 1; i++) {
-				if (trains[i].getDestinationPoint().compareTo(trains[i + 1].getDestinationPoint()) > 0) {
-					isSorted = false;
-					swapElements(trains, i, i + 1);
-
-				}
-			}
-
-		}
-
+	public List<Train> sortTrainsByDestinationPoint() {
+		List<Train> trainsSortedByDestinationPoint = Arrays.asList(trains);
+		trainsSortedByDestinationPoint.sort(TRAINS_BY_DESTINATION_POINT);
+		return trainsSortedByDestinationPoint;
 	}
 
 	/*
 	 * sort trains by departure time
 	 */
-	public void sortTrainsByDepartureTime() {
+	public List<Train> sortTrainsByDepartureTime(List<Train> trainsSortedByDestinationPoint) {
 
-		for (int i = 0; i < trains.length - 1; i++) {
-			for (int j = i + 1; j < trains.length; j++) {
-				if (trains[i].getDestinationPoint().equals(trains[j].getDestinationPoint())) {
-					if (trains[i].getDepartureTime().compareTo(trains[j].getDepartureTime()) > 0) {
-						swapElements(trains, i, j);
-					}
+		for (int i = 0; i < trainsSortedByDestinationPoint.size() - 1; i++) {
+			if (trainsSortedByDestinationPoint.get(i).getDestinationPoint()
+					.equals(trainsSortedByDestinationPoint.get(i + 1).getDestinationPoint())) {
+				if (trainsSortedByDestinationPoint.get(i).getDepartureTime()
+						.compareTo(trainsSortedByDestinationPoint.get(i + 1).getDepartureTime()) > 0) {
+					swapElements(trainsSortedByDestinationPoint, i, i + 1);
 				}
 			}
 		}
+		return trainsSortedByDestinationPoint;
+	}
 
+	/*
+	 * swap elements/trains
+	 */
+	private static void swapElements(List<Train> trains, int index1, int index2) {
+		Train temp = trains.get(index1);
+		trains.set(index1, trains.get(index2));
+		trains.set(index2, temp);
 	}
 
 	/*
 	 * user need to enter the train number, and he will get info about it as a
 	 * response
 	 */
-	public void showTrainInfoByNumber() {
+	public int getTrainNumberFromUser() {
 
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
@@ -104,31 +97,10 @@ public class TrainStation {
 			}
 
 		}
-
-		for (Train train : trains) {
-			if (train.getTrainNumber() == inputnumber) {
-				System.out.println(train);
-			}
-		}
+		
+		return inputnumber;
 
 	}
 
-	/*
-	 * swap elements/trains
-	 */
-	public static void swapElements(Train[] trains, int index1, int index2) {
-		Train temp = trains[index1];
-		trains[index1] = trains[index2];
-		trains[index2] = temp;
-	}
-
-	/*
-	 * print all trains
-	 */
-	public void printTrains() {
-		for (Train train : trains) {
-			System.out.println(train);
-		}
-	}
 
 }

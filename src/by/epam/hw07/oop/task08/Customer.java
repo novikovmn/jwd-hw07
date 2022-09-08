@@ -1,6 +1,11 @@
 package by.epam.hw07.oop.task08;
 
-public class Customer {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Customer implements Serializable {
+
+	private static final long serialVersionUID = -2541224035952378075L;
 
 	private static long id = 1;
 
@@ -11,6 +16,9 @@ public class Customer {
 	private String address;
 	private long creditCardNumber;
 	private long bankAccountNumber;
+
+	public Customer() {
+	}
 
 	public Customer(String lastName, String firstName, String patronymic, String address) {
 		this.customerId = id++;
@@ -81,10 +89,30 @@ public class Customer {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(address, bankAccountNumber, creditCardNumber, customerId, firstName, lastName, patronymic);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Customer other = (Customer) obj;
+		return Objects.equals(address, other.address) && bankAccountNumber == other.bankAccountNumber
+				&& creditCardNumber == other.creditCardNumber && customerId == other.customerId
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(patronymic, other.patronymic);
+	}
+
+	@Override
 	public String toString() {
-		return "Customer [customerId=" + customerId + ", lastName=" + lastName + ", firstName=" + firstName
-				+ ", patronymic=" + patronymic + ", address=" + address + ", creditCardNumber=" + creditCardNumber
-				+ ", bankAccountNumber=" + bankAccountNumber + "]";
+		return "Id = " + customerId + ", " +  lastName + " " + firstName
+				+ " " + patronymic + ", " + address + ", cardNumber = " + creditCardNumber
+				+ ", bankAccountNumber = " + bankAccountNumber;
 	}
 
 }
