@@ -2,8 +2,14 @@ package by.epam.hw07.oop.task04;
 
 import java.util.List;
 
+import by.epam.hw07.oop.task04.bean.Train;
+import by.epam.hw07.oop.task04.bean.TrainStation;
+import by.epam.hw07.oop.task04.helper.TrainStationHelper;
+import by.epam.hw07.oop.task04.logic.TrainStationLogic;
+import by.epam.hw07.oop.task04.view.ConsoleOutput;
+
 /* 4. Создайте класс Train, содержащий поля: название пункта назначения, номер поезда, время отправления.
-Создайте данные в массив из пяти элементов типа Train, добавьте возможность сортировки элементов массива по номерам 
+	Создайте данные в массив из пяти элементов типа Train, добавьте возможность сортировки элементов массива по номерам 
 поездов.  Добавьте  возможность  вывода  информации  о  поезде,  номер  которого  введен  пользователем.  
 Добавьте возможность сортировки массива по пункту назначения, причем поезда с одинаковыми пунктами назначения 
 должны быть упорядочены по времени отправления. */
@@ -11,13 +17,13 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {
-
-		TrainStation trainStation = new TrainStation(new TrainStationHelper().createTrainsList());
+		
+		ConsoleOutput output = new ConsoleOutput();
+		TrainStation trainStation = new TrainStation(new TrainStationHelper().createTrainsList());		
+		TrainStationLogic trainStationLogic = new TrainStationLogic();		
 
 		System.out.println("\tAll trains:");
-		for (Train train : trainStation.getTrains()) {
-			System.out.println(train);
-		}
+		output.printTrains(trainStation.getTrains());
 
 		System.out.println("==========================================================================");
 		
@@ -25,27 +31,19 @@ public class Main {
 		 * user need to enter train number to show him info about it
 		 * */
 		
-		int trainNumber = trainStation.getTrainNumberFromUser(); 
-		for (Train train : trainStation.getTrains()) {
-			if(train.getTrainNumber() == trainNumber) {
-				System.out.println("Done! >>> " + train);
-			}			
-		}
+		int trainNumber = trainStationLogic.getTrainNumberFromUser(); 
+		output.printTrains(trainStation.getTrains(), trainNumber); 
 		
 		System.out.println("==========================================================================");
 
 		System.out.println("\tTrains sorted by number:");
-		for (Train train : trainStation.sortTrainsByNumber()) {
-			System.out.println(train);
-		}
+		output.printTrains(trainStationLogic.sortTrainsByNumber(trainStation));
 
 		System.out.println("==========================================================================");
 
 		System.out.println("\tTrains sorted by destination point and departure time:");
-		List<Train> trainsByDestinationPoint = trainStation.sortTrainsByDestinationPoint();
-		for (Train train : trainStation.sortTrainsByDepartureTime(trainsByDestinationPoint)) {
-			System.out.println(train);
-		}
+		List<Train> trainsByDestinationPoint = trainStationLogic.sortTrainsByDestinationPoint(trainStation);
+		output.printTrains(trainStationLogic.sortTrainsByDepartureTime(trainsByDestinationPoint)); 
 
 	}
 

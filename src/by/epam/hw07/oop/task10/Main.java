@@ -1,5 +1,11 @@
 package by.epam.hw07.oop.task10;
 
+import by.epam.hw07.oop.task10.bean.Airport;
+import by.epam.hw07.oop.task10.bean.DayOfWeek;
+import by.epam.hw07.oop.task10.helper.AirportHelper;
+import by.epam.hw07.oop.task10.logic.AirportLogic;
+import by.epam.hw07.oop.task10.view.ConsoleOutput;
+
 /*
  * 10. Создать класс Airline, спецификация которого приведена ниже. Определить конструкторы, set- и get- методы и 
 метод    toString().  Создать  второй  класс,  агрегирующий  массив  типа  Airline,  с  подходящими  конструкторами  и 
@@ -17,25 +23,27 @@ public class Main {
 
 	public static void main(String[] args) {
 
+		ConsoleOutput output = new ConsoleOutput();
 		Airport airport = new Airport(new AirportHelper().createAirlinesList());
+		AirportLogic airportLogic = new AirportLogic();
 
 		System.out.println("\tAll airlines:");
-		airport.printAirlines();
+		output.printAirlines(airport.getAirlines());
 
 		System.out.println("==================================================================");
 
 		System.out.println("\tAirliners by destination point:");
-		airport.showAirlinesByDestinationPoint("Oslo");
+		output.printAirlines(airportLogic.showAirlinesByDestinationPoint(airport, "Oslo"));
 
 		System.out.println("==================================================================");
 
 		System.out.println("\tAirliners by day of week:");
-		airport.showAirlinesByDayOfWeek(DayOfWeek.SUNDAY);
+		output.printAirlines(airportLogic.showAirlinesByDayOfWeek(airport, DayOfWeek.FRIDAY));
 
 		System.out.println("==================================================================");
 
 		System.out.println("\tAirliners by given day and after given time:");
-		airport.showAirlinesByGivenDayOfWeekAndAfterGivenTime(DayOfWeek.FRIDAY, "01:00");
+		output.printAirlines(airportLogic.showAirlinesByGivenDayOfWeekAndAfterGivenTime(airport, DayOfWeek.FRIDAY, "01:00"));
 
 	}
 

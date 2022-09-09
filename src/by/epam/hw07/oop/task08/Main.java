@@ -1,5 +1,10 @@
 package by.epam.hw07.oop.task08;
 
+import by.epam.hw07.oop.task08.bean.CustomerDB;
+import by.epam.hw07.oop.task08.helper.CustomerDBHelper;
+import by.epam.hw07.oop.task08.logic.CustomerDBLogic;
+import by.epam.hw07.oop.task08.view.ConsoleOutput;
+
 /* 
 	8. Создать класс Customer, спецификация которого приведена ниже. 
 	Определить конструкторы, set- и get- методы и метод  toString().  
@@ -15,28 +20,24 @@ package by.epam.hw07.oop.task08;
 public class Main {
 
 	public static void main(String[] args) {
-
-		CustomerDB customerDB = new CustomerDB(new CustomerDBHelper().createCustomersList());
-
-		System.out.println("\tAll customers:");		
-		for (Customer customer : customerDB.getCustomers()) {
-			System.out.println(customer);
-		}		
 		
-		System.out.println("==========================");
+		ConsoleOutput output = new ConsoleOutput();
+		CustomerDB customerDB = new CustomerDB(new CustomerDBHelper().createCustomersList());		
+		CustomerDBLogic customerDBLogic = new CustomerDBLogic();
+		
+		System.out.println("\tAll customers:");
+		output.printCustomers(customerDB.getCustomers());
+		
+		System.out.println("===========================================================");
 
 		System.out.println("\tCustomers by last name:");
-		customerDB.sortByLastName();
-		for (Customer customer : customerDB.getCustomers()) {
-			System.out.println(customer);
-		}	
-
-		System.out.println("==========================");
-
-		System.out.println("\tSorted by credit card number:");		
-		for (Customer customer : customerDB.sortByCreditCardNumber(6, 18)) {
-			System.out.println(customer);
-		}
+		output.printCustomers(customerDBLogic.sortByLastName(customerDB));
+		
+		System.out.println("===========================================================");
+		
+		System.out.println("\tCustomers by credit card number:");
+		output.printCustomers(customerDBLogic.getCustomersByCreditCardNumber(customerDB, 15, 17));
+		
 	}
 
 }
